@@ -21,7 +21,8 @@ iDiv.style.width =  windowWidth+"px";
 iDiv.style.flex = 1;
 
 // add it in the body
-document.getElementsByTagName('body')[0].appendChild(iDiv);
+//let box = document.getElemenById('mainBox');
+document.getElementById('mainBox').appendChild(iDiv);
 
 /*
 iDiv.onmouseover= function(event){

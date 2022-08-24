@@ -6,6 +6,15 @@ html, body {
 canvas {
   display: block;
 }
+.BaseBlock{
+
+  position:absolute;
+  width:100%; 
+  height:100%; 
+  overflow: hidden;
+  flex-wrap: nowrap;
+  display: flex;
+}
 
 .blockRow  {
   width: 100%; height: 100%;
