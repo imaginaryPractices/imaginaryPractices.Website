@@ -3,6 +3,14 @@ let numWindows = 5;
 
 let id = 0;
 let logos=0;
+
+let titleWidth = 150;
+let textVolume = 140000;
+let whovolume =  60000;
+
+let Title = false;
+let About = false;
+let Who = false;
 function setup() {
   noCanvas();
 //create initial div
@@ -51,57 +59,8 @@ iDiv.onmouseout = function(event) {
 */
 
 recursiveDiv( 0, iDiv );
-console.log(logos)
-if(logos==0){
-  var txt = document.createElement('p');
-  txt.textContent='Imaginary Practices'
-  document.getElementById('iblock').append(txt);
 }
 
-if(logos==1){
-  var txt = document.createElement('p');
-  txt.textContent='About'
-  document.getElementById('iblock').append(txt);
-}
-}
-/* old code
-function loopDiv(numDiv, Div){
-
-  var iDiv = Div;
-  var jDiv = Div;
-//document.getElementsByTagName('body')[0].appendChild(jDiv);
-
-for(let i=0; i<numDiv; i++){
-// Now create and append to iDiv
-var inneriDiv = document.createElement('div');
-inneriDiv.className = 'iblock-'+i;
-var innerjDiv = document.createElement('div');
-innerjDiv.className = 'jblock-'+i;
-if(random(2)>1){
-  inneriDiv.style.width = '100%';
-  innerjDiv.style.width = '100%';
-  innerjDiv.style.top = '50%';
-}
-else{
-  inneriDiv.style.height = '100%';
-  innerjDiv.style.height = '100%';
-  innerjDiv.style.left = '50%';
-}
-
-inneriDiv.style.background = "#" + (Math.random() * 0xFFFFFF<<0).toString(16);
-innerjDiv.style.background = "#" + (Math.random() * 0xFFFFFF<<0).toString(16);
-// The variable iDiv is still good... Just append to it.
-iDiv.appendChild(inneriDiv);
-jDiv.appendChild(innerjDiv);
-
-
-iDiv = inneriDiv;
-jDiv = innerjDiv;
-}
-
-
-}
-*/
 
 let hexString = "abcdef";
 let randomColor = () => {
@@ -165,137 +124,72 @@ jDiv = innerjDiv;
 
 i++;
 var rand = random(1);
-if(rand<0.33){
+
+if(i<=2){
 recursiveDiv( i, iDiv );
 recursiveDiv( i, jDiv );
-}else if(rand<0.66){
-recursiveDiv( i, jDiv );
-if(i==3){ 
-  var txt = document.createElement('p');
-  txt.textContent='Imaginary Practices2'
-  iDiv.append(txt);
-  logos++
-}
- }
-else{
-recursiveDiv( i, iDiv );
-if(i==2){ 
-  var txt = document.createElement('p');
-  txt.textContent='Imaginary Practices3'
-  jDiv.append(txt);
-  logos++
-}
-}
+}else {
 
-}
-
-/*
-// r
-function fractScl(target){
-  if(!target.style){return;}
-  console.log("frac!");
-  console.log(target);
-  
- var sib = target.nextSibling;
-
-  var static = 0;
-  
-  var wdth = parseInt(target.style.width);
-  wdth++;  
-  if(wdth<99 && wdth>20){
-    
-      target.style.width = wdth+"%";
-      
-      //get the left pos
-      var left = parseInt(target.style.left);
-      // if its greater than 0
-      if(left>0){
-        // set new pos
-        target.style.left = (100-wdth)+"%";
-      }
-      //else if theres a sibling
-      else if (sib){
-        // set the sibling width + pos
-        sib.style.width = (100-wdth)+"%";
-        sib.style.left = wdth;
-      }
-      
-      //var id = "#"+target.id
-      //console.log(id);
-      //KUTE.to(id,{scale:1.5}).start();
-    }else{static++;}
-    // get the height
-    var hght = parseInt(target.style.height);
-    hght++;
-    // if in height range
-    if(hght<99 && hght>20){
-      // set new height
-      target.style.height = hght+"%";
-      
-      // get the top pos
-      var top = parseInt(target.style.top);
-      // if greater than 0
-      if(top>0 ){
-        // set to new offset
-        target.style.top = (100-hght)+"%";
-      }
-      else if(sib){
-        // if has a sibling set new size + offset
-        sib.style.height = (100-top)+"%";
-        sib.style.top = target.style.height;
-      }
-    }else{static++;}
-  if(target.offsetParent ){
-  fractScl(target.offsetParent);
+  if(!AddContent(iDiv)&&random(1)<0.5){
+    recursiveDiv( i, iDiv );
   }
-  
-  return static;
+  if(!AddContent(jDiv)&&random(1)<0.5){
+    recursiveDiv( i, jDiv );
+  }
+}
 
 }
 
+function AddContent(div){
 
-function reScl(target){
-  console.log("re!");
- console.log(target);
-  
- var sib = target.nextSibling;
-  var centr = 0;
-  var wdth = parseInt(target.style.width);
-    if(wdth!=50 && wdth!=100){
-      if(wdth<50){wdth++;}
-      else{wdth--;}
-      target.style.width = wdth+"%";
-      
+  let added = false;
+  if(FindVolume(div)>textVolume && !About){ 
+    var title = document.createElement('h2');
+    title.textContent='About';
+    div.append(title);
+    var txt = document.createElement('p');
+    txt.textContent='Imaginary Practices is a design studio critically delving into the imaginaries of art and technology. We aim to step away from the evolved and embedded narratives of science and technology by challenging these dynamics with contemporary critical concepts founded on grounded research. A core ethos of Imaginary Practices is learning through sharing, practicing imagining together. We care about accessibility of skills and thought, aiming to decrypt the complex languages and ideas of new technologies through each project. We care about where we fit as designers and how our work can influence a cross section of fields that are still emerging, challenging the shrouded infrastructure of these technologies, aiming to not only make them visible but to imagine them anew.'
+    div.append(txt);
+    logos++
+    About = true;
+    console.log("about");
+    added = true;
+  }else if(FindVolume(div)>whovolume && !Who){ 
+    
 
-      var left = parseInt(target.style.left);
-      if(left>0){
-        target.style.left = (100-width)+"%";
-      }
-      else if (sib){
-        sib.style.width = (100-wdth)+"%";
-        sib.style.left = target.style.width;
-      }
-    }else{centr++;}
+    var title = document.createElement('h2');
+    title.textContent='Who';
+    div.append(title);
+    var txt = document.createElement('p');
+    txt.textContent='George Simms';
+    div.append(txt);
+    txt = document.createElement('p');
+    txt.textContent='Yasmin Morgan';
+    div.append(txt);
+    txt = document.createElement('p');
+    txt.textContent='Megan Benson';
+    div.append(txt);
+    logos++
+    Who = true;
+    console.log("who");
+    added = true;
+  }
+  else  if(div.clientWidth>titleWidth && !Title){ 
+    console.log("Title");
 
-    var hght = parseInt(target.style.height);
-    if(hght!=50 && hght!=100){
-      if(hght<50){hght++;}
-      else{hght--;}
-      target.style.height = hght+"%";
-      
-      
-      var top = parseInt(target.style.top);
-      if(top>0 ){
-        target.style.top = (100-hght)+"%";
-      }
-      else if(sib){
-        sib.style.height = (100-top)+"%";
-        sib.style.top = target.style.height;
-      }
-    }else{centr++;}
+    var txt = document.createElement('p');
+    txt.textContent='Imaginary Practices'
+    div.append(txt);
+    logos++
+    Title = true;
+    added = true;
+  }
 
-
-  return centr;
-  
+  return added;
 }
-*/
+
+function FindVolume(div){
+  return div.clientWidth * div.clientHeight;
+}
+
+
