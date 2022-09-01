@@ -5,12 +5,13 @@ let id = 0;
 let logos=0;
 
 let titleWidth = 150;
-let textVolume = 140000;
-let whovolume =  60000;
+let textVolume = 2000;
+let whovolume =  2000;
 
 let Title = false;
 let About = false;
 let Who = false;
+ 
 function setup() {
   noCanvas();
 //create initial div
@@ -32,33 +33,17 @@ iDiv.style.flex = 1;
 //let box = document.getElemenById('mainBox');
 document.getElementById('mainBox').appendChild(iDiv);
 
-/*
-iDiv.onmouseover= function(event){
-  //event.target.style.tabIndex = 10;
-  
-  var id = setInterval(animate, 5, event.target);
-
-  function animate(target) {
-    if (fractScl(target)<2) {
-      clearInterval(id);
-    }
-  }
-
-  //jtimer = setTimeout(fractScl, 30, event.target);
-}
-iDiv.onmouseout = function(event) {
-
-  var id = setInterval(animate, 5, event.target);
-
-  function animate(target) {
-    if (reScl(target)<2) {
-      clearInterval(id);
-    }
-  }
-}
-*/
 
 recursiveDiv( 0, iDiv );
+
+let infoDiv = document.createElement('div');
+infoDiv.id = 'Info';
+infoDiv.className = 'InfoBlock';
+ colorOne = randomColor();
+ colorTwo = randomColor();
+ angle = Math.floor(Math.random() * 360);
+infoDiv.style.background = `linear-gradient(${angle}deg, ${colorOne}, ${colorTwo})`;
+iDiv.append(infoDiv);
 }
 
 
@@ -91,10 +76,6 @@ var innerjDiv = document.createElement('div');
 innerjDiv.id = id+"";
 id++;
 innerjDiv.style.zIndex  = i;
-/*
-inneriDiv.style.position= "absolute";
-innerjDiv.style.position= "absolute";
-*/
 
 if(random(2)>1){
   innerjDiv.className = 'blockRow';
@@ -123,58 +104,67 @@ iDiv = inneriDiv;
 jDiv = innerjDiv;
 
 i++;
-var rand = random(1);
 
-if(i<=2){
+if(i>2){
+  var rand = random(1);
+  if(!AddContent(iDiv) && rand>0.5){
+    recursiveDiv( i, iDiv );
+  } 
+  if(!AddContent(jDiv) && rand<0.5){
+    recursiveDiv( i, jDiv );
+  } 
+}
+else {
 recursiveDiv( i, iDiv );
 recursiveDiv( i, jDiv );
-}else {
-
-  if(!AddContent(iDiv)&&random(1)<0.5){
-    recursiveDiv( i, iDiv );
-  }
-  if(!AddContent(jDiv)&&random(1)<0.5){
-    recursiveDiv( i, jDiv );
-  }
 }
 
 }
 
 function AddContent(div){
 
+  let rand = random(4);
   let added = false;
-  if(FindVolume(div)>textVolume && !About){ 
+  if(FindVolume(div)>textVolume && !About && rand<1){ 
     var title = document.createElement('h2');
     title.textContent='About';
     div.append(title);
-    var txt = document.createElement('p');
-    txt.textContent='Imaginary Practices is a design studio critically delving into the imaginaries of art and technology. We aim to step away from the evolved and embedded narratives of science and technology by challenging these dynamics with contemporary critical concepts founded on grounded research. A core ethos of Imaginary Practices is learning through sharing, practicing imagining together. We care about accessibility of skills and thought, aiming to decrypt the complex languages and ideas of new technologies through each project. We care about where we fit as designers and how our work can influence a cross section of fields that are still emerging, challenging the shrouded infrastructure of these technologies, aiming to not only make them visible but to imagine them anew.'
-    div.append(txt);
+    div.onmouseover = function(){
+      let infoDiv = document.getElementById("Info");
+
+      infoDiv.innerHTML = `<h2>What</h2>
+      <p> Imaginary Practices is a design studio critically delving into the imaginaries of art and technology. We aim to step away from the evolved and embedded narratives of science and technology by challenging these dynamics with contemporary critical concepts founded on grounded research. A core ethos of Imaginary Practices is learning through sharing, practicing imagining together. We care about accessibility of skills and thought, aiming to decrypt the complex languages and ideas of new technologies through each project. We care about where we fit as designers and how our work can influence a cross section of fields that are still emerging, challenging the shrouded infrastructure of these technologies, aiming to not only make them visible but to imagine them anew.   </p>
+            `;
+    }
+    
+    
     logos++
     About = true;
     console.log("about");
     added = true;
-  }else if(FindVolume(div)>whovolume && !Who){ 
+  }else if(FindVolume(div)>whovolume && !Who && rand<2){ 
     
 
     var title = document.createElement('h2');
     title.textContent='Who';
     div.append(title);
-    var txt = document.createElement('p');
-    txt.textContent='George Simms';
-    div.append(txt);
-    txt = document.createElement('p');
-    txt.textContent='Yasmin Morgan';
-    div.append(txt);
-    txt = document.createElement('p');
-    txt.textContent='Megan Benson';
-    div.append(txt);
+
+    div.onmouseover = function(){
+      let infoDiv = document.getElementById("Info");
+
+      infoDiv.innerHTML = `<h2>Who</h2>
+      <p> George Simms </p>
+      <p> Yasmin Morgan </p>
+      <p> Megan Benson </p>
+      `;
+    }
+
     logos++
     Who = true;
     console.log("who");
     added = true;
   }
-  else  if(div.clientWidth>titleWidth && !Title){ 
+  else  if(div.clientWidth>titleWidth && !Title && rand<3){ 
     console.log("Title");
 
     var txt = document.createElement('p');
