@@ -1,6 +1,6 @@
 # Imaginary Practices
 
-Home Page :- https://wwww.imaginarypractices.studio/
+Home Page :- https://wwww.imaginarypractices.studio
 
  # To Do:
     - improve the texts
