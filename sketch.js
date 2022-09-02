@@ -1,21 +1,26 @@
 
-let numWindows = 5;
+let numWindows = 5; // how many windows there are
 
-let id = 0;
-let logos=0;
+let id = 0; // id num ++ every div thats entered to give them individual ids
 
-let titleWidth = 150;
-let textVolume = 2000;
-let whovolume =  2000;
 
+let titleWidth = 150;// width needed for the website title
+let textVolume = 2000; // the volume needed for the about text
+let whovolume =  2000;// the volume needed for the who section
+
+//bools to tell if one type has been displayed
 let Title = false;
 let About = false;
 let Who = false;
  
+//called at the begining
 function setup() {
+  // no p5 canvas
   noCanvas();
 //create initial div
+// create a div
 var iDiv = document.createElement('div');
+// id and class it 
 iDiv.id = 'iblock';
 iDiv.className = 'BaseBlock';
 // randomize colour
@@ -26,27 +31,29 @@ iDiv.style.background = `linear-gradient(${angle}deg, ${colorOne}, ${colorTwo})`
 // full window
 iDiv.style.height =  windowHeight+"px";
 iDiv.style.width =  windowWidth+"px";
-//iDiv.style.position = "fixed";
-iDiv.style.flex = 1;
+
 
 // add it in the body
-//let box = document.getElemenById('mainBox');
 document.getElementById('mainBox').appendChild(iDiv);
 
-
+// call the recursive div function
 recursiveDiv( 0, iDiv );
 
+// creat a new div
 let infoDiv = document.createElement('div');
+// id and class it as the info div
 infoDiv.id = 'Info';
 infoDiv.className = 'InfoBlock';
+// add a random colour
  colorOne = randomColor();
  colorTwo = randomColor();
  angle = Math.floor(Math.random() * 360);
 infoDiv.style.background = `linear-gradient(${angle}deg, ${colorOne}, ${colorTwo})`;
+// Append it to the iDiv
 iDiv.append(infoDiv);
 }
 
-
+// function to get a random hex colour, edit the hex string to get differnt outcomes
 let hexString = "abcdef";
 let randomColor = () => {
   let hexCode = "#";
@@ -60,75 +67,90 @@ let randomColor = () => {
 // recursive function to make divs in divs
 function recursiveDiv( i, Div )
 {
+  // if we have reached max recursions, return
   if(i==numWindows){
     return;}
+  // set iDiv/Jdiv from the div
   var iDiv = Div;
   var jDiv = Div;
 
-
+// create a new div
   var inneriDiv = document.createElement('div');
-//inneriDiv.className = 'block';
-inneriDiv.id = id+"";
-id++;
-inneriDiv.style.zIndex  = i;
-var innerjDiv = document.createElement('div');
+  // id it 
+  inneriDiv.id = id+"";
+  id++;
+  // set the z-index from the itteration
+  inneriDiv.style.zIndex  = i;
+  // create another div and do the same
+  var innerjDiv = document.createElement('div');
+  innerjDiv.id = id+"";
+  id++;
+  innerjDiv.style.zIndex  = i;
 
-innerjDiv.id = id+"";
-id++;
-innerjDiv.style.zIndex  = i;
+  // 50/50 set if block or column with css class
+  if(random(2)>1){
+    innerjDiv.className = 'blockRow';
+    inneriDiv.className = 'blockRow';
+  }
+  else{
+    innerjDiv.className = 'blockColumn';
+    inneriDiv.className = 'blockColumn';
+  }
+  // randomize the colour
+  let colorOne = randomColor();
+  let colorTwo = randomColor();
+  let angle = Math.floor(Math.random() * 360);
+  inneriDiv.style.background = `linear-gradient(${angle}deg, ${colorOne}, ${colorTwo})`;
+  innerjDiv.style.background = `linear-gradient(${angle}deg, ${colorOne}, ${colorTwo})`;
 
-if(random(2)>1){
-  innerjDiv.className = 'blockRow';
-  inneriDiv.className = 'blockRow';
- 
-}
-else{
-  innerjDiv.className = 'blockColumn';
-  inneriDiv.className = 'blockColumn';
+// append the inner divs to the last div
+  Div.appendChild(inneriDiv);
+  Div.appendChild(innerjDiv);
+
+  // set i/j divs fro the last ones
+  iDiv = inneriDiv;
+  jDiv = innerjDiv;
+
   
-}
-let colorOne = randomColor();
-let colorTwo = randomColor();
-let angle = Math.floor(Math.random() * 360);
-inneriDiv.style.background = `linear-gradient(${angle}deg, ${colorOne}, ${colorTwo})`;
-innerjDiv.style.background = `linear-gradient(${angle}deg, ${colorOne}, ${colorTwo})`;
-var itimer, jtimer;
-
-
-
-// The variable iDiv is still good... Just append to it.
-Div.appendChild(inneriDiv);
-Div.appendChild(innerjDiv);
-
-iDiv = inneriDiv;
-jDiv = innerjDiv;
-
-i++;
-
-if(i>2){
-  var rand = random(1);
-  if(!AddContent(iDiv) && rand>0.5){
+// if itteration is greater than
+  if(i>1){
+    // add one to the itteration i
+    i++;
+    // create a random 0-1
+    var rand = random(1);
+    // if you cant add content to iDiv and rand is bellow 0.5
+    if(!AddContent(iDiv) && rand>0.5){
+      // recurse the iDiv
+      recursiveDiv( i, iDiv );
+    } else if(!AddContent(jDiv) && rand<0.5){ // if you cant add to jDiv and rand is less than 0.5
+     // recurse jdiv
+      recursiveDiv( i, jDiv );
+    } 
+  }
+  else {
+    // add one to the itteration i
+    i++;
+    // recurse both divs
     recursiveDiv( i, iDiv );
-  } 
-  if(!AddContent(jDiv) && rand<0.5){
     recursiveDiv( i, jDiv );
-  } 
-}
-else {
-recursiveDiv( i, iDiv );
-recursiveDiv( i, jDiv );
-}
+  }
 
 }
 
+// add content function
 function AddContent(div){
 
+  // rand between 0-4
   let rand = random(4);
+  // bool to see if we have added anything
   let added = false;
+  // if volume is big enough for about txt + it hasnt been writen + rand
   if(FindVolume(div)>textVolume && !About && rand<1){ 
+    // Add an About title
     var title = document.createElement('h2');
     title.textContent='About';
     div.append(title);
+    // add an on hover function adding text to the info div
     div.onmouseover = function(){
       let infoDiv = document.getElementById("Info");
 
@@ -137,18 +159,18 @@ function AddContent(div){
             `;
     }
     
-    
-    logos++
+    // set about to true to show its been added
     About = true;
-    console.log("about");
+    // set added to true to show something was added
     added = true;
-  }else if(FindVolume(div)>whovolume && !Who && rand<2){ 
+  }else if(FindVolume(div)>whovolume && !Who && rand<2){ // if who volume is big enough
     
-
+// add the title of who 
     var title = document.createElement('h2');
     title.textContent='Who';
     div.append(title);
 
+    // on mouse over add the text to the info div
     div.onmouseover = function(){
       let infoDiv = document.getElementById("Info");
 
@@ -158,26 +180,25 @@ function AddContent(div){
       <p> Megan Benson </p>
       `;
     }
-
-    logos++
+    // set who to true
     Who = true;
-    console.log("who");
+    // set added to true
     added = true;
   }
-  else  if(div.clientWidth>titleWidth && !Title && rand<3){ 
-    console.log("Title");
-
+  else  if(div.clientWidth>titleWidth && !Title && rand<3){ // if we can add a title 
+    // add the website title as text
     var txt = document.createElement('p');
     txt.textContent='Imaginary Practices'
     div.append(txt);
-    logos++
+    // set bools to tru
     Title = true;
     added = true;
   }
-
+  // return if something was added 
   return added;
 }
 
+// find div volume w*h
 function FindVolume(div){
   return div.clientWidth * div.clientHeight;
 }
