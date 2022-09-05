@@ -11,6 +11,15 @@ let whovolume =  2000;
 let Title = false;
 let About = false;
 let Who = false;
+
+//for colours, feel free to add / remove change the palettes
+let palettes = [
+  ["264653","2A9D8F","E9C464A","F4A261","E76F51"], //https://coolors.co/palette/264653-2a9d8f-e9c46a-f4a261-e76f51
+  ["F0EAD2","DDE5B6","ADC178","A98467","6C584C"], // https://coolors.co/palette/f0ead2-dde5b6-adc178-a98467-6c584c
+  ["000000","14213D","FCA311","E5E5E5","FFFFFF"], //https://coolors.co/palette/000000-14213d-fca311-e5e5e5-ffffff
+  ["C9CBA3","FF£1A8","E26D5C","723D46","472D30"] //https://coolors.co/palette/000000-14213d-fca311-e5e5e5-ffffff
+];
+let randomPal = Math.floor(Math.random() * palettes.length);
  
 function setup() {
   noCanvas();
@@ -42,17 +51,26 @@ infoDiv.className = 'InfoBlock';
  colorOne = randomColor();
  colorTwo = randomColor();
  angle = Math.floor(Math.random() * 360);
-infoDiv.style.background = `linear-gradient(${angle}deg, ${colorOne}, ${colorTwo})`;
+// infoDiv.style.background = `linear-gradient(${angle}deg, ${colorOne}, ${colorTwo})`;
+infoDiv.style.background = colorOne;
 iDiv.append(infoDiv);
 }
 
 
 let hexString = "abcdef";
+// meg - I've added some colour palettes (not set on any atm) above, but sometimes white appears
+// despite white not being in any ofthe palettes? :/
 let randomColor = () => {
   let hexCode = "#";
-  for( i=0; i<6; i++){
-      hexCode += hexString[Math.floor(Math.random() * hexString.length)];
-  }
+  // let palette = ["264653","2A9D8F","E9C464A","F4A261","E76F51"];
+  
+  let randomCol = Math.floor(Math.random() * palettes[randomPal].length);
+  console.log(random);
+  hexCode += palettes[randomPal][randomCol];
+  console.log(randomPal, randomCol, hexCode);
+  // for( i=0; i<6; i++){
+  //     hexCode += hexString[Math.floor(Math.random() * hexString.length)];
+  // }
   return hexCode;
 }
 
@@ -90,8 +108,10 @@ else{
 let colorOne = randomColor();
 let colorTwo = randomColor();
 let angle = Math.floor(Math.random() * 360);
-inneriDiv.style.background = `linear-gradient(${angle}deg, ${colorOne}, ${colorTwo})`;
-innerjDiv.style.background = `linear-gradient(${angle}deg, ${colorOne}, ${colorTwo})`;
+// inneriDiv.style.background = `linear-gradient(${angle}deg, ${colorOne}, ${colorTwo})`;
+inneriDiv.style.background = colorOne;
+innerjDiv.style.background = colorTwo;
+// innerjDiv.style.background = `linear-gradient(${angle}deg, ${colorOne}, ${colorTwo})`;
 var itimer, jtimer;
 
 
