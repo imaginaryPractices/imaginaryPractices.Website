@@ -1,5 +1,5 @@
 
-let numWindows = 5; // how many windows there are
+let numWindows = 8; // how many windows there are
 
 let id = 0; // id num ++ every div thats entered to give them individual ids
 
@@ -67,12 +67,14 @@ let randomColor = () => {
 // recursive function to make divs in divs
 function recursiveDiv( i, Div )
 {
+  
   // if we have reached max recursions, return
   if(i==numWindows){
     return;}
   // set iDiv/Jdiv from the div
   var iDiv = Div;
   var jDiv = Div;
+
 
 // create a new div
   var inneriDiv = document.createElement('div');
@@ -87,15 +89,28 @@ function recursiveDiv( i, Div )
   id++;
   innerjDiv.style.zIndex  = i;
 
-  // 50/50 set if block or column with css class
-  if(random(2)>1){
-    innerjDiv.className = 'blockRow';
-    inneriDiv.className = 'blockRow';
-  }
-  else{
-    innerjDiv.className = 'blockColumn';
-    inneriDiv.className = 'blockColumn';
-  }
+    if(i==1){
+      if(random(2)>1){
+        innerjDiv.className = 'blockBaseRow';
+        inneriDiv.className = 'blockBaseRow';
+      }
+      else{
+        innerjDiv.className = 'blockBaseColumn';
+        inneriDiv.className = 'blockBaseColumn';
+      }
+      
+    }else{
+
+      // 50/50 set if block or column with css class
+      if(random(2)>1){
+        innerjDiv.className = 'blockRow';
+        inneriDiv.className = 'blockRow';
+      }
+      else{
+        innerjDiv.className = 'blockColumn';
+        inneriDiv.className = 'blockColumn';
+      }
+    }
   // randomize the colour
   let colorOne = randomColor();
   let colorTwo = randomColor();
