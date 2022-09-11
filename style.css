@@ -12,7 +12,7 @@ canvas {
   width:100%; 
   height:100%; 
   overflow: hidden;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   display: flex;
 }
 .InfoBlock{
@@ -24,8 +24,62 @@ canvas {
   flex-wrap: nowrap;
   display: flex;
 }
-
 .blockRow  {
+  -moz-border-radius: 25px;
+  -webkit-border-radius: 25px;
+  border-radius: 25px; 
+   /* We first create a flex layout context */
+   display: flex;
+    /* Then we define the flow direction 
+      and if we allow the items to wrap 
+    * Remember this is the same as:
+    * flex-direction: row;
+    * flex-wrap: wrap;
+    */
+   flex-flow: row wrap;
+   flex: 1;
+   flex-wrap:nowrap ;
+   /* Then we define how is distributed the remaining space */
+   justify-content: space-around;
+   
+   padding: 0;
+   margin: 0;
+   
+   width: 50%;
+   height: 50%;
+   list-style: none;
+   
+ }
+
+ .blockBaseColumn  {
+   width: 100%; height: 100%;
+   -moz-border-radius: 15px;
+   -webkit-border-radius: 15px;
+   border-radius: 15px; 
+    /* We first create a flex layout context */
+    display: flex;
+/* Then we define the flow direction 
+       and if we allow the items to wrap 
+     * Remember this is the same as:
+     * flex-direction: row;
+     * flex-wrap: wrap;
+     */
+    flex-flow: column wrap;
+    flex: 1;
+    
+    /* Then we define how is distributed the remaining space */
+    justify-content: space-around;
+    
+    padding: 0;
+    margin: 0;
+    
+    list-style: none;
+    
+   width: 50%;
+   height: 50%;
+  }
+
+.blockBaseRow  {
    -moz-border-radius: 25px;
    -webkit-border-radius: 25px;
    border-radius: 25px; 
@@ -39,7 +93,6 @@ canvas {
      */
     flex-flow: row wrap;
     flex: 1;
-    flex-wrap:nowrap ;
     /* Then we define how is distributed the remaining space */
     justify-content: space-around;
     
@@ -76,19 +129,17 @@ canvas {
      
      list-style: none;
      
-    width: 50%;
-    height: 50%;
+    width: 100%;
+    height: 100%;
    }
 
    .blockRow:hover{
     
     z-index: 100;
-      background: black;
       animation: flexanimation 1s forwards ; 
     }
     .blockColumn:hover{
       z-index: 100;
-        background: black;
         animation: flexanimation 1s forwards ; 
       }
    

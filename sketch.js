@@ -48,11 +48,7 @@ recursiveDiv( 0, iDiv );
 let infoDiv = document.createElement('div');
 infoDiv.id = 'Info';
 infoDiv.className = 'InfoBlock';
- colorOne = randomColor();
- colorTwo = randomColor();
- angle = Math.floor(Math.random() * 360);
-// infoDiv.style.background = `linear-gradient(${angle}deg, ${colorOne}, ${colorTwo})`;
-infoDiv.style.background = colorOne;
+
 iDiv.append(infoDiv);
 }
 
@@ -95,22 +91,41 @@ innerjDiv.id = id+"";
 id++;
 innerjDiv.style.zIndex  = i;
 
-if(random(2)>1){
-  innerjDiv.className = 'blockRow';
-  inneriDiv.className = 'blockRow';
- 
+if(i==0){
+  if(random(2)>1){
+    innerjDiv.className = 'blockBaseRow';
+    inneriDiv.className = 'blockBaseRow';
+   
+  }
+  else{
+    innerjDiv.className = 'blockBaseColumn';
+    inneriDiv.className = 'blockBaseColumn';
+    
+  }
+
 }
 else{
-  innerjDiv.className = 'blockColumn';
-  inneriDiv.className = 'blockColumn';
-  
+
+  if(random(2)>1){
+    innerjDiv.className = 'blockRow';
+    inneriDiv.className = 'blockRow';
+   
+  }
+  else{
+    innerjDiv.className = 'blockColumn';
+    inneriDiv.className = 'blockColumn';
+    
+  }
+
 }
+
 let colorOne = randomColor();
 let colorTwo = randomColor();
 let angle = Math.floor(Math.random() * 360);
 // inneriDiv.style.background = `linear-gradient(${angle}deg, ${colorOne}, ${colorTwo})`;
 inneriDiv.style.background = colorOne;
 innerjDiv.style.background = colorTwo;
+
 // innerjDiv.style.background = `linear-gradient(${angle}deg, ${colorOne}, ${colorTwo})`;
 var itimer, jtimer;
 
